@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-class StudentCreateSchema(BaseModel):
+class Students(BaseModel):
     first_name: str
     last_name : str
 
@@ -20,7 +20,7 @@ class StudentCreateSchema(BaseModel):
         }
 
 @app.post("/students/", status_code=200)
-async def create_student(student: StudentCreateSchema):
+async def create_student(student: Students):
     return student
 
 @app.get("/students/{student_id}")
