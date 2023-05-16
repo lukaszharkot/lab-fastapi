@@ -1,34 +1,11 @@
-from typing import Union
-
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, Request
+from fastapi.templating import Jinja2Templates
+from students.router import router
 
 app = FastAPI()
-
-class Students(BaseModel):
-    first_name: str
-    last_name : str
-
-    class StudentUpdateSchema:
-        schema_extra = {
-            "example": {
-                "name": "Foo",
-                "description": "A very nice Item",
-                "price": 35.4,
-                "tax": 3.2,
-            }
-        }
-
-@app.post("/students/", status_code=200)
-async def create_student(student: Students):
-    return student
-
-@app.get("/students/{student_id}")
-async def read_student(student_id):
-    if student_id not in students:
-        raise HTTPException(status_code=404, detail="Student not found")
-    return {"student": students[student_id]}
+templates = Jinja2Templates(directory="templates")
+app.include_router(router, prefix="/students")
 
 @app.get("/")
-async def root():
-    return {"message": "Hello World"}
+async def root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
