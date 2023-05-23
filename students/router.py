@@ -14,17 +14,16 @@ async def create_student(student: StudentUpdateSchema):
 
 @router.post("/{student_id}/marks/{ocena}")
 async def add_mark(student_id: int, ocena: float):
-    mark_value = Mark(ocena)
     if student_id not in marks_storage:
         marks_storage[student_id] = []
-    marks_storage[student_id].append(mark_value)
-    return {"message": "Ocena została dodana."}
+    marks_storage[student_id].append(Mark(ocena))
+    return {"message": "Grade added."}
 
 @router.get("/{student_id}/marks")
 async def get_marks(student_id: int):
     if student_id not in marks_storage:
         raise HTTPException(status_code=404, detail="Student ID not found")
-    return {"marks": marks_storage[student_id]}
+    return {f"Oceny dla {students[student_id]}": marks_storage[student_id]}
 
 @router.get("/", status_code=200)
 async def read_students():
