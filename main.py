@@ -9,3 +9,4 @@ app.include_router(router, prefix="/students")
 @app.get("/")
 async def root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
+

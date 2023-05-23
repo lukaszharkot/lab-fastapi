@@ -1,9 +1,11 @@
 from pydantic import BaseModel
+from enum import Enum
+
 
 class StudentUpdateSchema(BaseModel):
     first_name: str
     last_name: str
-    
+
 class Mark(float, Enum):
     BARDZO_DOBRY = 5.0
     DOBRY_PLUS = 4.5
